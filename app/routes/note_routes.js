@@ -1,4 +1,5 @@
-module.exports			= function(app, client) {	
+module.exports	= function(app, client) {	
+	
 	app.get('/health',function(req,res){
 	   	client.cluster.health({},function(err,resp,status) {  
 	      	if(err){
@@ -10,17 +11,15 @@ module.exports			= function(app, client) {
 	   });
 	});
 
-	app.get('/serchOll',function(req,res){
+	app.get('/serchOll/',function(req,res){
 		client.search({
 			index: 'asferro',
 			type: 'user',
 			body: {
-		  		query: {
-			      match: {
-			        name: 'Her'
-			    	}
-    			}
-		  	}
+		   		query: {
+			      "match_all" : {}
+     			}
+		   	}
 		}).then(function(response) {
 			var hits = response.hits.hits;
 			res.send({hits});
@@ -29,26 +28,54 @@ module.exports			= function(app, client) {
 		});
 	});
 
-	app.get('/serchId',function(req,res){
-		client.search({
-			index: 'asferro',
-			type: 'user',
-			body: {
-		  		query: {
-			      match: {
-			        _id: "92cjvmQBQkNE0rGWjcLK",
-			    	}
-    			}
-		  	}
-		}).then(function(response) {
-			var hits = response.hits.hits;
-			res.send({hits});
-		}, function(error) {
-			console.trace(error.message);
+	app.delete('/delleteById/',function(req,res){
+		let index=req.query.id;
+		console.log(id);
+		client.delete({
+		  index: 'asferro',
+		  type: 'user',
+		  _id: "SlNU1mQBBioWNR89pgtR"
 		});
+		// client.delete({
+		// 	index: 'asferro',
+		// 	type: 'user',
+		// 	_id: ''+index,
+			
+		// })
+		// client.deleteByQuery({
+  //       index: 'asferro',
+  //       type: 'user',
+  //       body: {
+  //          query: {
+  //              match: { id: ''+index }
+  //          }
+  //       }
+	 //    }).then(function(response) {
+		// 		var hits = response.hits.hits;
+		// 		res.send({hits});
+		// 	}, function(error) {
+		// 		console.trace('sldkslsllllllllllllllllllllllllllllllllllllllllllllllllll');
+		// 		console.trace(error.message);
+		// });
 	});
 	   	
-
+	app.post('/addUser/', function(req, res) {		
+		
+		console.log(req.body);
+		client.index({
+		  index: 'myindex',
+		  type: 'mytype',		  
+		  body: {
+		    "name": req.body.id,
+			"surname":req.body.surname,
+			"birthday":req.body.birthday,
+			"contact":req.body.contact,
+			"email":"Egg.piska@her.com",
+			"last_modified_date":''+new new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+		  }
+		});		
+			
+	});
 
 
 

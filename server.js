@@ -18,13 +18,13 @@ app.use(bodyParser.json());
 // var img='/www/img';
 // var js='/www/js';
 
-var css='/dist/myapp';
-var img='/dist/myapp';
-var js='/dist/myapp';
+var css='/AngularTest/asfero-angular/dist/myapp';
+var img='/AngularTest/asfero-angular/dist/myapp';
+var js='/AngularTest/asfero-angular/dist/myapp';
 
 // var index='./www/index.html';
 
-var index='./dist/myapp/index.html';
+var index='./AngularTest/asfero-angular/dist/myapp/index.html';
 
 
 
