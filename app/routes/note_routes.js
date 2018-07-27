@@ -15,6 +15,7 @@ module.exports	= function(app, client) {
 		client.search({
 			index: 'asferro',
 			type: 'user',
+			size : 50,
 			body: {
 		   		query: {
 			      "match_all" : {}
@@ -30,11 +31,19 @@ module.exports	= function(app, client) {
 
 	app.delete('/delleteById/',function(req,res){
 		let index=req.query.id;
-		console.log(id);
+		console.log(index);
+		console.log('------------------------------------------------');
 		client.delete({
 		  index: 'asferro',
 		  type: 'user',
-		  _id: "SlNU1mQBBioWNR89pgtR"
+		  id: index,
+		}).then(function(response) {
+			console.log('*********************************************');
+			console.log(response);
+				res.send(response);
+			}, function(error) {
+				
+				console.trace(error.message);
 		});
 		// client.delete({
 		// 	index: 'asferro',
@@ -60,19 +69,55 @@ module.exports	= function(app, client) {
 	});
 	   	
 	app.post('/addUser/', function(req, res) {		
-		
+		let date=new Date();
+		let last_modified_date=''+date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
 		console.log(req.body);
 		client.index({
-		  index: 'myindex',
-		  type: 'mytype',		  
+		  index: 'asferro',
+		  type: 'user',		  
 		  body: {
-		    "name": req.body.id,
+		    "name": req.body.name,
 			"surname":req.body.surname,
 			"birthday":req.body.birthday,
 			"contact":req.body.contact,
-			"email":"Egg.piska@her.com",
-			"last_modified_date":''+new new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+			"email":req.body.email,
+			"last_modified_date":last_modified_date,
 		  }
+		}).then(function(response) {
+			console.log('User added');
+			console.log(response);
+				res.send(response);
+			}, function(error) {				
+				console.trace(error.message);
+		});		
+			
+	});
+
+	app.put('/fixUser/', function(req, res) {		
+		let date=new Date();
+		let last_modified_date=''+date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+		console.log(req.body);
+		console.log(req);
+		client.update({
+		  index: 'asferro',
+		  type: 'user',
+		  id: req.body.id,	  
+		  body: {
+		  	doc:{
+			    "name": req.body.name,
+				"surname":req.body.surname,
+				"birthday":req.body.birthday,
+				"contact":req.body.contact,
+				"email":req.body.email,
+				"last_modified_date":last_modified_date,
+			}
+		  }
+		}).then(function(response) {
+			console.log('User update');
+			console.log(response);
+				res.send(response);
+			}, function(error) {				
+				console.trace(error.message);
 		});		
 			
 	});
