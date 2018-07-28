@@ -13,24 +13,12 @@ var client = elasticsearch.Client({
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
-
-// var css='/www/css';
-// var img='/www/img';
-// var js='/www/js';
-
-var css='/AngularTest/asfero-angular/dist/myapp';
-var img='/AngularTest/asfero-angular/dist/myapp';
-var js='/AngularTest/asfero-angular/dist/myapp';
-
-// var index='./www/index.html';
-
-var index='./AngularTest/asfero-angular/dist/myapp/index.html';
+var css='/dist/myapp';
+var img='/dist/myapp';
+var js='/dist/myapp';
 
 
-
-// app.use("/css", express.static(__dirname + css));
-// app.use("/img", express.static(__dirname + img));
-// app.use("/js", express.static(__dirname + js));
+var index='./dist/myapp/index.html';
 
 app.use("/", express.static(__dirname + css));
 
